@@ -1,12 +1,12 @@
 [package]
-name = "qeir"
+name = "qeirq"
 description = "A simulator of a monolayer of cells that hold a simple internal state and communicate when in contact."
 keywords = ["cellular automaton", "kinetic Monte Carlo", "cell signaling", "cell monolayer", "traveling wave"]
 categories = ["science", "systems biology"]
-repository = "https://github.com/kochanczyk/qeir"
-license = "BSD-3-clause"
+repository = "https://github.com/kochanczyk/qeirq"
+license = "GPL-3.0-or-later"
 version = "1.0.0"
-authors = ["https://github.com/kochanczyk/qeir/CONTRIBUTORS.md"]
+authors = ["https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md"]
 edition = "2021"
 
 [dependencies]
