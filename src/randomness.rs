@@ -1,7 +1,7 @@
 // QEIRQ, simulator of a monolayer of cells that hold a simple internal state and communicate when in contact
 //
 // Copyright (2024) https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md.
-// Licensed under the 3-Clause BSD license (https://opensource.org/licenses/BSD-3-Clause).
+// Licensed under GPLv3 (https://www.gnu.org/licenses/gpl-3.0.html).
 
 use rand::{rngs::StdRng, SeedableRng};
 
