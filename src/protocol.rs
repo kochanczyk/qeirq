@@ -1,7 +1,7 @@
 // QEIRQ, simulator of a monolayer of cells that hold a simple internal state and communicate when in contact
 //
 // Copyright (2024) https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md.
-// Licensed under GPLv3 (https://www.gnu.org/licenses/gpl-3.0.html).
+// Licensed under the 3-Clause BSD license (https://opensource.org/licenses/BSD-3-Clause).
 
 use std::fs::{File, OpenOptions};
 use std::io::{self, BufRead, Write};
@@ -20,7 +20,7 @@ use nom::{
     sequence::{delimited, pair, separated_pair, terminated, tuple},
 };
 
-use crate::commands::{initialize_front, run_simulation};
+use crate::commands::{initialize_front, run_simulation, set_top_edge_nonperiodic};
 use crate::lattice::Lattice;
 use crate::output::{Output, ACTIVITY_COLUMN_SUM_FILE_NAME};
 use crate::parameters::Parameters;
@@ -100,6 +100,7 @@ impl Protocol {
         let cmd_run = || tuple((tag("run"), s, timespan(), s, every()));
         let cmd_run_quiet = || tuple((tag("run"), s, timespan(), s, never()));
         let cmd_init_front = || tuple((tag("+front"), s, tag("at"), s, tag("column"), s, column()));
+        let cmd_aperiodic = || tuple((tag("lattice"), s, tag("top"), s, tag("edge"), s, tag("aperiodic")));
 
         let mut activity_file = Self::open_activity_file(&output);
         Self::write_activity_file_header(&mut activity_file, lattice);
@@ -123,6 +124,8 @@ impl Protocol {
                     &output_workers,
                 );
                 initial_frame_in_output_files = false;
+            } else if let Ok(_) = cmd_aperiodic()(command) {
+                set_top_edge_nonperiodic(lattice);
             } else if let Ok((_, (_, _, tspan, _, _))) = cmd_run_quiet()(command) {
                 run_simulation(
                     lattice,
