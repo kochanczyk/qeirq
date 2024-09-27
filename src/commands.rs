@@ -1,7 +1,7 @@
 // QEIRQ, simulator of a monolayer of cells that hold a simple internal state and communicate when in contact
 //
 // Copyright (2024) https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md.
-// Licensed under GPLv3 (https://www.gnu.org/licenses/gpl-3.0.html).
+// Licensed under the 3-Clause BSD license (https://opensource.org/licenses/BSD-3-Clause).
 
 use std::fs::File;
 use crate::compartment::Compartment;
@@ -23,8 +23,34 @@ pub fn initialize_front(lattice: &mut Lattice, column: usize) {
             // active ~ "infectious"
             debug_assert!(column + 1 < lattice.width);
             let cell = &mut lattice.cells[(column + 1) * lattice.height + y];
-            cell.compartments[Compartment::I as usize] = 1;
+            if cell.alive {
+                cell.compartments[Compartment::E as usize] = 0;
+                cell.compartments[Compartment::I as usize] = 1;
+                cell.compartments[Compartment::R as usize] = 0;
+            }
+        }
+    }
+}
+
+pub fn set_top_edge_nonperiodic(lattice: &mut Lattice) {
+    if Lattice::IMAGE_RECTANGULAR {
+        for cell_i in 0..lattice.capacity {
+            let (mut i, j) = (cell_i % lattice.height, cell_i / lattice.height);
+            i = (i + j/2) % lattice.height;
+            if 2*i + (j%2) <= 1 {
+                let cell = &mut lattice.cells[cell_i];
+                cell.alive = false;
+                cell.compartments[Compartment::E as usize] = 0;
+                cell.compartments[Compartment::I as usize] = 0;
+                cell.compartments[Compartment::R as usize] = 0;
+            }
+        }
+    } else {
+        for x in 0..lattice.width {
+            let cell = &mut lattice.cells[x*lattice.height];
+            cell.alive = false;
             cell.compartments[Compartment::E as usize] = 0;
+            cell.compartments[Compartment::I as usize] = 0;
             cell.compartments[Compartment::R as usize] = 0;
         }
     }
