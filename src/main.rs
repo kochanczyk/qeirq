@@ -7,12 +7,12 @@
 //               "Information transmission in a cell monolayer: a numerical study"
 //
 //                                 by Nałęcz-Jawecki et al.
-//                                [TODO:JOURNAL-NAME], 202X
+//                             PLOS Computational Biology, 2025
 //
 // For more info, see file README.md.
 //
-// Copyright (2024) https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md.
-// Licensed under GPLv3 (https://www.gnu.org/licenses/gpl-3.0.html).
+// Copyright (2024-2025) https://github.com/kochanczyk/qeirq/CONTRIBUTORS.md.
+// Licensed under the BSD 3-clause license (https://opensource.org/license/bsd-3-clause).
 // -------------------------------------------------------------------------------------------------
 
 mod cell;
